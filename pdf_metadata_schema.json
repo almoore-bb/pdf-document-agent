@@ -1,0 +1,271 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "PDF Metadata API",
+    "version": "1.0.0",
+    "description": "API for PDF metadata operations"
+  },
+  "paths": {
+    "/pdf-metadata": {
+      "post": {
+        "summary": "PDF metadata operations",
+        "description": "Check, suggest, or set PDF title and language metadata",
+        "operationId": "pdf_metadata",
+        "parameters": [
+          {
+            "name": "pdf_s3_uri",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "S3 URI (s3://bucket/key) or HTTP/HTTPS URL of the PDF"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["check", "suggest-title", "suggest-language", "set-title", "set-language", "set-both"]
+            },
+            "description": "Action to perform"
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Title to set (required for set-title and set-both actions)"
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Language code to set (required for set-language and set-both actions)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pdf-tags": {
+      "post": {
+        "summary": "PDF tagging operations",
+        "description": "Check or add structural tags to PDF for accessibility",
+        "operationId": "pdf_tags",
+        "parameters": [
+          {
+            "name": "pdf_s3_uri",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "S3 URI (s3://bucket/key) or HTTP/HTTPS URL of the PDF"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["check", "add"]
+            },
+            "description": "Action to perform: check for existing tags or add tags"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tag operation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pdf-images": {
+      "post": {
+        "summary": "PDF image alt-text operations",
+        "description": "Check or add alt-text to PDF images for accessibility",
+        "operationId": "pdf_images",
+        "parameters": [
+          {
+            "name": "pdf_s3_uri",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "S3 URI (s3://bucket/key) or HTTP/HTTPS URL of the PDF"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["check", "apply"]
+            },
+            "description": "Action to perform: check for alt-text and suggest, or apply alt-text to images"
+          },
+          {
+            "name": "alt_text_data",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "JSON string mapping image IDs to alt-text: {\"page_1_img_0\": \"Description\", ...} (required for apply action)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image alt-text operation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pdf-contrast": {
+      "post": {
+        "summary": "PDF text contrast operations",
+        "description": "Check or fix text contrast issues for accessibility compliance",
+        "operationId": "pdf_contrast",
+        "parameters": [
+          {
+            "name": "pdf_s3_uri",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "S3 URI (s3://bucket/key) or HTTP/HTTPS URL of the PDF"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["check", "fix"]
+            },
+            "description": "Action to perform: check contrast ratios or fix contrast issues"
+          },
+          {
+            "name": "min_contrast_ratio",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Minimum contrast ratio (default: 4.5 for normal text, 3.0 for large text)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contrast operation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pdf-summary": {
+      "post": {
+        "summary": "PDF document summarization",
+        "description": "Generate a concise yet thorough summary of PDF document content",
+        "operationId": "pdf_summary",
+        "parameters": [
+          {
+            "name": "pdf_s3_uri",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "S3 URI (s3://bucket/key) or HTTP/HTTPS URL of the PDF"
+          },
+          {
+            "name": "summary_length",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["brief", "detailed", "comprehensive"]
+            },
+            "description": "Length of summary: brief (2-3 sentences), detailed (1-2 paragraphs), comprehensive (full analysis)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Document summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

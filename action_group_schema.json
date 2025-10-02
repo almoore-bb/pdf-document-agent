@@ -1,0 +1,102 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Document Accessibility Analysis API",
+    "version": "1.0.0",
+    "description": "API for analyzing document accessibility"
+  },
+  "paths": {
+    "/analyze-accessibility": {
+      "post": {
+        "summary": "Analyze document for accessibility issues",
+        "description": "Analyzes a Word or PDF document for WCAG accessibility compliance",
+        "operationId": "analyze_accessibility",
+        "parameters": [
+          {
+            "name": "document",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Document content (text) or S3 URI (s3://bucket/key) for PDF files"
+          },
+          {
+            "name": "document_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["PDF", "Word", "Text"]
+            },
+            "description": "Type of document being analyzed"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accessibility analysis results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "analysis": {
+                      "type": "string",
+                      "description": "Detailed accessibility analysis"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fix-accessibility": {
+      "post": {
+        "summary": "Fix document accessibility issues",
+        "description": "Applies accessibility fixes to a document and returns a link to the fixed PDF",
+        "operationId": "fix_accessibility",
+        "parameters": [
+          {
+            "name": "document",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Document content to fix for accessibility issues"
+          },
+          {
+            "name": "document_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["PDF", "Word", "Text"]
+            },
+            "description": "Type of document being fixed"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fixed document download link",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "description": "Download link for the fixed accessible PDF"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
