@@ -165,3 +165,6 @@ For issues and questions:
 - Create an issue in this repository
 - Check the troubleshooting section
 - Review CloudWatch logs for error details
+
+## Example Usage
+<video controls src="https://anthologyinc-my.sharepoint.com/:v:/r/personal/andrew_moore_anthology_com/Documents/example-remediation.mov?csf=1&web=1&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=SdD9qb" title="AI-Enabled PDF Remediation with Bedrock"></video>
